@@ -1,0 +1,32 @@
+---
+
+- hosts: group1
+  become: yes
+  tasks:
+  - name: Installing Docker
+    yum:
+      name=docker
+      state=latest
+  - name: Installing Apache2 Server
+    yum:
+      name=httpd
+      state=latest
+  - name: Installing Git 
+    yum:
+      name=git
+      state=latest
+  - name: Enabling Apache2 Server
+    shell: |
+      service httpd enable
+      service httpd start
+  - name: Pulling from Trojanwall Git Repository
+    shell: |
+      chmod +x /var/www/html
+      cd /var/www/html/ ; sudo rm -R * --force
+      git init
+      git remote add origin https://gitlab.com/arbnair97/trojanwall.git
+      git checkout -b TestCase
+      git pull https://gitlab.com/arbnair97/trojanwall.git TestCase
+  - name: Configuring Trojanwall in Apache2 Server
+    shell: |
+      sudo cp -RpP /home/ansadmin/. /var/www/html

@@ -1,0 +1,26 @@
+---
+
+- hosts: kubemaster
+  become: yes
+  
+  tasks:
+  - name: Kubernetes Cluster PING Test
+    ping:
+  - debug:
+      msg:
+      - "Connection from Ansible Engine to Kubernetes cluster Established."
+  - name: Trojanwall App deployment
+    shell: |
+      cd /home/TestProject/Kubernetes/Django
+      kubectl apply -f django_deploy.yml
+  - debug:
+      msg:
+      - "Deployment to Kubernetes Cluster Successfull."
+      - "Changes have been reflected."
+      - "Pods re-sheduling."
+      - "Pods re-deploying."
+  - name: Kubernetes Cluster pods check
+    shell: |
+      sleep 1m
+      kubectl get pods -n trojanwall
+      kubectl get svc -n trojanwall

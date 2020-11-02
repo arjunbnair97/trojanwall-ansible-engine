@@ -1,0 +1,25 @@
+---
+
+- hosts: group3
+  become: yes
+  vars:
+    packages: ['docker','apache2','git']
+  tasks:
+  - name: Installing Required Packages
+    apt:
+      name={{packages}}
+      state=latest
+  - debug:
+      msg:
+      - "Packages installed: {{packages}}"
+  - name: Pulling from Trojanwall Git Repository
+    shell: |
+      chmod +x /var/www/html
+      cd /var/www/ ; sudo rm -R html --force
+      cd /var/www/ ; mkdir html
+      cd /var/www/html/
+      git init
+      git remote add origin https://gitlab.com/arbnair97/trojanwall.git
+      git checkout -b TestCase
+      git pull https://gitlab.com/arbnair97/trojanwall.git TestCase
+      

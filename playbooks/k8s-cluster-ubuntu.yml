@@ -1,0 +1,36 @@
+# This is a test Ansible playbook to setup Kubernetes Cluster in ubuntu.
+# author: Arjun B Nair
+
+---
+
+- hosts: kubemaster
+  become: yes
+  tasks:
+  - name: Client Server PING Test
+    ping:
+  - name: Transfer Files to Client Machine
+    copy:
+      src=../scripts/k8s-cluster-ubuntu.sh
+      dest=/home/ansadmin/
+  - name: Configuring Kubenrtes Cluster
+    shell: |
+      chmod +x /home/ansadmin/k8s-cluster-ubuntu.sh
+      cd /home/ansadmin/ ; ./k8s-cluster-ubuntu.sh
+      kubectl taint nodes master-node blue=true:NoSchedule
+      kubectl taint nodes --all node-role.kubernetes.io/master-
+      kubectl cluster-info
+  - debug:
+      msg:
+      - "Kubernetes Cluster successfully setup and configured."
+
+
+
+
+
+
+
+
+
+
+
+

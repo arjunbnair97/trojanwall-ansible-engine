@@ -1,0 +1,53 @@
+# This is a test Ansible playbook to setup trojanwall application in Kubernetes Cluster.
+# author: Arjun B Nair
+
+
+---
+
+- hosts: kubemaster
+  become: yes
+  vars:
+    packages: ['docker','git']
+  tasks:
+  - name: Installing Required Packages
+    apt:
+      name={{packages}}
+      state=latest
+  - debug:
+      msg:
+      - "Packages installed: {{packages}}."
+
+  - name: Pulling from Trojanwall Git Repository
+    shell: |
+      chmod +x /home
+      cd /home ; mkdir TestProject
+      cd /home/TestProject
+      git init
+      git remote add origin https://gitlab.com/arbnair97/trojanwallg2.git
+      git checkout -b Production
+      git pull https://gitlab.com/arbnair97/trojanwallg2.git Production
+  - debug:
+      msg:
+      - "Trojanwall Repository Pulled from Gitlab."
+      - "Kubernetes Cluster ready for configuration."
+    
+  - name: Trojanwall App deployment
+    shell: |
+      cd /home/TestProject/Kubernetes/
+      kubectl create -f namespace.yml 
+      cd /home/TestProject/Kubernetes/Postgres
+      kubectl create -f pg_secrets.yml
+      kubectl create -f pg_pv.yml
+      kubectl create -f pg_deploy.yml
+      cd /home/TestProject/Kubernetes/Django
+      kubectl create -f django_secrets.yml
+      sleep 1m
+      kubectl create -f django_deploy.yml
+  - debug:
+      msg:
+      - "Trojanwall successfully deployed to Kuberentes Cluster."
+
+  - name: Kubernetes Cluster pods check
+    shell: |
+      kubectl get pods -n trojanwall
+      kubectl get svc -n trojanwall

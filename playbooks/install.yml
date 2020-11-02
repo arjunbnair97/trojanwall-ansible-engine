@@ -1,0 +1,10 @@
+# This is an Ansible playbook to install mentioned packages.
+# author: Arjun B Nair
+
+---
+- hosts: kube
+  become: yes
+  tasks:
+  - yum: 
+      name=docker 
+      state=present

@@ -1,0 +1,10 @@
+#!/bin/bash
+
+git_ver=$(git --version | awk '{print $3}')
+docker_ver=$(docker --version | awk '{print $3}')
+
+cat << EOF
+{ "Git_Version": "$git_ver",
+   "Docker_Version": "$docker_ver"
+}
+EOF

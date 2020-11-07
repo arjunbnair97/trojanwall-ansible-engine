@@ -1,3 +1,4 @@
+
 ---
 
 - hosts: kubemaster
@@ -9,18 +10,30 @@
   - debug:
       msg:
       - "Connection from Ansible Engine to Kubernetes cluster Established."
-  - name: Trojanwall App deployment
+  - name: Cluster Configurations
     shell: |
-      cd /home/TestProject/Kubernetes/Django
-      kubectl apply -f django_deploy.yml
+      sudo cp /etc/kubernetes/admin.conf $HOME/ 
+      sudo chown $(id -u):$(id -g) $HOME/admin.conf 
+      export KUBECONFIG=$HOME/admin.conf 
+      cd /home/TestProject
+      git reset --hard 
+      git pull https://gitlab.com/arbnair97/trojanwallg2.git Production 
   - debug:
       msg:
-      - "Deployment to Kubernetes Cluster Successfull."
+      - "Kube admin configuration done."
+      - "GitLab repository pull completed."
+  - name: Kubernetes Cluster deployment
+    shell: |
+      cd /home/TestProject/Kubernetes/Django
+      kubectl delete -f django_deploy.yml && kubectl apply -f django_deploy.yml
+  - debug:
+      msg:
+      - "Deployment to Kubernetes Cluster successfull."
       - "Changes have been reflected."
       - "Pods re-sheduling."
       - "Pods re-deploying."
-  - name: Kubernetes Cluster pods check
+  - name: Kubernetes Cluster pods current stats
     shell: |
-      sleep 1m
+      sleep 10s
       kubectl get pods -n trojanwall
       kubectl get svc -n trojanwall

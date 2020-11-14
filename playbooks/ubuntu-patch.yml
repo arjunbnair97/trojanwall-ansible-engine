@@ -1,0 +1,19 @@
+---
+
+- hosts: kubemaster
+  become: yes
+  
+  tasks:
+  - name: Kubernetes Cluster PING Test
+    ping:
+  - debug:
+      msg:
+      - "Connection from Ansible Engine to Host Machine Established."
+  - name: 
+    shell: |
+      sudo apt-get update -y
+  - debug:
+      msg:
+      - "Host machine has been patched."
+
+  

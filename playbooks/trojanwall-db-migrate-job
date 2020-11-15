@@ -1,0 +1,30 @@
+---
+
+- hosts: kubemaster
+  become: yes
+  
+  tasks:
+  - name: Kubernetes Cluster PING Test
+    ping:
+  - debug:
+      msg:
+      - "Connection from Ansible Engine to Kubernetes cluster Established."
+  - name: Cluster Configurations
+    shell: |
+      sudo cp /etc/kubernetes/admin.conf $HOME/ 
+      sudo chown $(id -u):$(id -g) $HOME/admin.conf 
+      export KUBECONFIG=$HOME/admin.conf 
+  - debug:
+      msg:
+      - "Kube admin configuration done."
+  - name: Run Migrate Job
+    shell: |
+      cd /home/TestProject/Kubernetes/Django
+      kubectl create -f django_job.yml
+      sleep 30s
+      kubectl get pods -n trojanwall
+  - debug:
+      msg:
+      - "Trojanwall Migrate Job ran successfully."
+      - "Database Container Migrated."
+

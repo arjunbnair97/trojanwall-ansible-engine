@@ -21,8 +21,9 @@
     shell: |
       cd /home/TestProject/Kubernetes/Django
       kubectl create -f django_job.yml
-      sleep 30s
-      kubectl get pods -n trojanwall
+      sleep 180s
+      kubectl delete -f django_job.yml
+      
   - debug:
       msg:
       - "Trojanwall Migrate Job ran successfully."

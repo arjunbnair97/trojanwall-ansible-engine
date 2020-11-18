@@ -17,7 +17,7 @@
       dest: C:\Users\Administrator\Downloads
       
     win_copy:
-      src: ../files/VSCodeUserSetup-x64-1.51.1
+      src: ../files/VSCodeUserSetup-x64-1.51.1.exe
       dest: C:\Users\Administrator\Downloads
       
   - debug:
@@ -32,7 +32,7 @@
     when: ACTION == "Install"
     
     win_package:
-      path: C:\Users\Administrator\Downloads\VSCodeUserSetup-x64-1.51.1
+      path: C:\Users\Administrator\Downloads\VSCodeUserSetup-x64-1.51.1.exe
       state: present
     when: ACTION == "Install"
     

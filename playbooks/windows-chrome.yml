@@ -1,0 +1,33 @@
+---
+
+- hosts: winserver
+  become: yes
+  gather_facts: no
+  
+  tasks:
+  - name: Ping test from Ansible Engine to Windows Host
+    win_ping:
+  - debug:
+      msg:
+      - "Connection from Ansible Engine to Windows Host Machines Established."
+      
+  tasks:
+  - name: Copy Chrome install file from Ansible Engine to Host Machine
+    win_copy:
+      src: ../files/ChromeSetup.exe
+      dest: C:\Users\Administrator\Downloads
+  - debug:
+      msg:
+      - "Successfully copied Chrome installation file into Host Machines."
+      
+  tasks:
+  - name: Install Chrome Browser in Host Machines
+    win_package:
+      path: C:\Users\Administrator\Downloads\ChromeSetup.exe
+      wait: yes
+      state: present
+    when: ACTION == "Install"
+  - debug:
+      msg:
+      - "Chrome browser installation in Windows Host Machines complete."
+

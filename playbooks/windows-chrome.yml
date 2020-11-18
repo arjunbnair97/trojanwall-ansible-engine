@@ -15,6 +15,11 @@
     win_copy:
       src: ../files/ChromeSetup.exe
       dest: C:\Users\Administrator\Downloads
+      
+    win_copy:
+      src: ../files/VSCodeUserSetup-x64-1.51.1
+      dest: C:\Users\Administrator\Downloads
+      
   - debug:
       msg:
       - "Successfully copied Chrome installation file into Host Machines."
@@ -25,6 +30,12 @@
       path: C:\Users\Administrator\Downloads\ChromeSetup.exe
       state: present
     when: ACTION == "Install"
+    
+    win_package:
+      path: C:\Users\Administrator\Downloads\VSCodeUserSetup-x64-1.51.1
+      state: present
+    when: ACTION == "Install"
+    
   - debug:
       msg:
       - "Chrome browser installation in Windows Host Machines complete."

@@ -10,7 +10,6 @@
       msg:
       - "Connection from Ansible Engine to Windows Host Machines Established."
       
-  tasks:
   - name: Copy Chrome install file from Ansible Engine to Host Machine
     win_copy:
       src: ../files/ChromeSetup.exe
@@ -20,7 +19,6 @@
       msg:
       - "Successfully copied Chrome installation file into Host Machines."
       
-  tasks:
   - name: Install Chrome Browser in Host Machines
     win_package:
       path: C:\Users\Administrator\Downloads\ChromeSetup.exe

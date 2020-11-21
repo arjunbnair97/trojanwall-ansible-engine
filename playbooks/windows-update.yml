@@ -37,7 +37,11 @@
       - SecurityUpdates
       - DefinitionUpdates
       - UpdateRollups
+      - Updates
       state: searched
+      category_names: "{{ win_updates_categories }}"
+      register: update_count
+      ignore_errors: yes
       log_path: c:\ansible_wu.txt
       
   - name: Install all critical and security updates in Windows Host Machines
@@ -47,6 +51,8 @@
       - SecurityUpdates
       - DefinitionUpdates
       - UpdateRollups
+      - Updates
+      category_names: "{{ win_updates_categories }}"
       state: installed
     register: update_result
  

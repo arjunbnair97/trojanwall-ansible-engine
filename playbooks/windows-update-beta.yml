@@ -33,7 +33,7 @@
       - "Successfully stopped and disabled Windows Update Service."
       
   - name: Start IIS Server LB Check Site
-    community.windows.win_iis_website:
+    win_iis_website:
       name: "LBCheckSite"
       state: stopped
   - debug:

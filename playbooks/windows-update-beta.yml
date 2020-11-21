@@ -48,7 +48,7 @@
   - name: Start IIS Server LB Check Site
     win_iis_website:
       name: "LBCheckSite"
-      state: started
+      state: absent
   - debug:
       msg:
       - "Successfully Started IIS Server LB Check Site."

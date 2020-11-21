@@ -39,9 +39,9 @@
   - name: Search for new available updates
     win_updates:
       category_names: "{{ win_updates_categories }}"
-      whitelist:
-      - KB2267602
-      - KB4586839
+      #whitelist:
+      #- KB2267602
+      #- KB4586839
       state: searched
       register: update_count
       ignore_errors: yes
@@ -50,9 +50,9 @@
   - name: Install all critical and security updates in Windows Host Machines
     win_updates:
       category_names: "{{ win_updates_categories }}"
-      whitelist:
-      - KB2267602
-      - KB4586839
+      #whitelist:
+      #- KB2267602
+      #- KB4586839
       state: installed
     register: update_result
   

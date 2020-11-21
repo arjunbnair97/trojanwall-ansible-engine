@@ -55,32 +55,9 @@
       #- KB4586839
       state: installed
     register: update_result
-  
- 
-  - name: Stop and Disable Windows Module Installer Service after Patching.
-    win_service:
-      name: TrustedInstaller
-      start_mode: disabled
-      state: stopped
-  - debug:
-      msg:
-      - "Successfully stopped and disabled Windows Module Installer Service."
-      
-      
-      
-  - name: Stop and Disable Windows Update Service
-    win_service:
-      name: wuauserv
-      start_mode: disabled
-      state: stopped
-  - debug:
-      msg:
-      - "Successfully stopped and disabled Windows Update Service."
-      
       
       
   - name: Reboot Windows Host if required.
     win_reboot:
     when: update_result.reboot_required
-      
       

@@ -1,3 +1,11 @@
+# This Ansible Playbook can be used to perform the following tasks.
+#
+# - Start Windows Module Installer Service and Windows Update Service in windows Host Machine.
+# - Search for prefered available updates and install them
+# - Reboot the Windows Host Machine after installing update in Windows Host Machine.
+# Author: Arjun B Nair
+# Last updated: 22/11/2020
+
 ---
 
 - hosts: winserver
@@ -9,33 +17,55 @@
       - DefinitionUpdates
       - Updates
   
+  
+  
   tasks:
+  
+  # To perform ping test to Windows Host Machine from Ansible Engine. 
   - name: Ping test from Ansible Engine to Windows Host
     win_ping:
   - debug:
       msg:
       - "Connection from Ansible Engine to Windows Host Machines Established."
       
+      
+      
+  # To Start Windows Module Installer Service in the Windows Host Machine.
   - name: Start Windows Module Installer Service
     win_service:
       name: TrustedInstaller
       start_mode: manual
       state: started
-    
   - debug:
       msg:
       - "Successfully started Windows Module Installer Service."
       
+      
+      
+  # To Start Windows Update Service in the Windows Host Machine.    
   - name: Start Windows Update Service
     win_service:
       name: wuauserv
       start_mode: manual
       state: started
-    
   - debug:
       msg:
       - "Successfully started Windows Update Service."
+  
+  
+  
+  # To Stop IIS Server LB Check Site in the Windows Host Machine.
+  - name: Stop IIS Server LB Check Site
+    win_iis_website:
+      name: "LBCheckSite"
+      state: stopped
+  - debug:
+      msg:
+      - "Successfully Stopped IIS Server LB Check Site."
       
+      
+      
+  # To Search for perfereable Windows Update in Windows Host Machine.     
   - name: Search for new available updates
     win_updates:
       category_names: "{{ win_updates_categories }}"
@@ -47,6 +77,9 @@
       ignore_errors: yes
       log_path: c:\ansible_wu.txt
       
+      
+      
+  # To Install perfereable Windows Update in Windows Host Machine.    
   - name: Install all critical and security updates in Windows Host Machines
     win_updates:
       category_names: "{{ win_updates_categories }}"
@@ -57,6 +90,8 @@
     register: update_result
       
       
+      
+  # To Reboot Windows Host if required after installing updates.     
   - name: Reboot Windows Host if required.
     win_reboot:
     when: update_result.reboot_required

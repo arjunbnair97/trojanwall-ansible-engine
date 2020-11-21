@@ -20,6 +20,18 @@
 [kubemaster]
 trojanwall.southeastasia.cloudapp.azure.com
 
+[winserver]
+15.206.172.21
+
+
+
+[winserver:vars]
+ansible_user=Administrator
+ansible_password="s&)sF!m&%;=yfF)73gCz)goqKcabCp-@"
+ansible_port=5986
+ansible_connection=winrm
+ansible_winrm_server_cert_validation=ignore
+
 
 
 

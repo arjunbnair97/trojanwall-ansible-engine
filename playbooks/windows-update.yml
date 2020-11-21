@@ -1,6 +1,7 @@
 ---
 
 - hosts: winserver
+  become: "{{ 'no' if ansible_facts['os_family'] == 'Windows' else 'yes' }}"
   gather_facts: no
   
   tasks:

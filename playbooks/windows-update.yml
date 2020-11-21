@@ -2,6 +2,13 @@
 
 - hosts: winserver
   gather_facts: no
+  vars:
+    win_updates_categories:
+      - SecurityUpdates
+      - CriticalUpdates
+      - UpdateRollups
+      - DefinitionUpdates
+      - Updates
   
   tasks:
   - name: Ping test from Ansible Engine to Windows Host
@@ -32,26 +39,14 @@
       
   - name: Search for new available updates
     win_updates:
-      category_names:
-      - CriticalUpdates
-      - SecurityUpdates
-      - DefinitionUpdates
-      - UpdateRollups
-      - Updates
-      state: searched
       category_names: "{{ win_updates_categories }}"
+      state: searched
       register: update_count
       ignore_errors: yes
       log_path: c:\ansible_wu.txt
       
   - name: Install all critical and security updates in Windows Host Machines
     win_updates:
-      category_names:
-      - CriticalUpdates
-      - SecurityUpdates
-      - DefinitionUpdates
-      - UpdateRollups
-      - Updates
       category_names: "{{ win_updates_categories }}"
       state: installed
     register: update_result

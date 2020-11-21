@@ -59,7 +59,7 @@
     win_iis_website:
       name: "LBCheckSite"
       state: stopped
-      parameters: logfile.directory:C:\sites\iis_ansible_logs
+      parameters: logfile.directory:C:\iis_ansible_logs.txt
   - debug:
       msg:
       - "Successfully Stopped IIS Server LB Check Site."

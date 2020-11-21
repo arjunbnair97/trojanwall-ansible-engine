@@ -37,5 +37,8 @@
       name: LB Check site
       port: 8080
       state: stopped
+  - debug:
+      msg:
+      - "Successfully Started IIS Server LB Check Site."
       
       

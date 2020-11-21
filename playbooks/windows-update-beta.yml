@@ -1,0 +1,35 @@
+---
+
+- hosts: winserver
+  gather_facts: no
+  
+  tasks:
+  - name: Ping test from Ansible Engine to Windows Host
+    win_ping:
+  - debug:
+      msg:
+      - "Connection from Ansible Engine to Windows Host Machines Established."
+      
+  
+    
+  - name: Stop and Disable Windows Module Installer Service after Patching.
+    win_service:
+      name: TrustedInstaller
+      start_mode: disabled
+      state: stopped
+  - debug:
+      msg:
+      - "Successfully stopped and disabled Windows Module Installer Service."
+      
+      
+      
+  - name: Stop and Disable Windows Update Service
+    win_service:
+      name: wuauserv
+      start_mode: disabled
+      state: stopped
+  - debug:
+      msg:
+      - "Successfully stopped and disabled Windows Update Service."
+      
+      

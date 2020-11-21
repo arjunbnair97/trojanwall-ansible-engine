@@ -17,8 +17,6 @@
       - DefinitionUpdates
       - Updates
   
-  
-  
   tasks:
   
   # To perform ping test to Windows Host Machine from Ansible Engine. 

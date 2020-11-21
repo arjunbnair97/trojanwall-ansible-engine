@@ -1,4 +1,5 @@
 # This Ansible Playbook can be used to perform the following tasks.
+# Please note that this playbook is supposed to run in order to install Windows Update in host machine. 
 #
 # - Start Windows Module Installer Service and Windows Update Service in windows Host Machine.
 # - Stop IIS Server LB Check Site in the Windows Host Machine

@@ -30,6 +30,16 @@
       msg:
       - "Successfully started Windows Update Service."
       
+  - name: Search for new available updates
+    win_updates:
+      category_names:
+      - CriticalUpdates
+      - SecurityUpdates
+      - DefinitionUpdates
+      - UpdateRollups
+      state: searched
+      log_path: c:\ansible_wu.txt
+      
   - name: Install all critical and security updates in Windows Host Machines
     win_updates:
       category_names:

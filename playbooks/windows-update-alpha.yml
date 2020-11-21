@@ -93,6 +93,9 @@
       
   # To Reboot Windows Host if required after installing updates.     
   - name: Reboot Windows Host if required.
+    win_iis_website:
+      name: "LBCheckSite"
+      state: stopped
     win_reboot:
     when: update_result.reboot_required
       

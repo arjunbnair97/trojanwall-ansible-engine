@@ -1,0 +1,31 @@
+---
+
+- hosts: winserver
+  gather_facts: no
+  
+  tasks:
+  - name: Ping test from Ansible Engine to Windows Host
+    win_ping:
+  - debug:
+      msg:
+      - "Connection from Ansible Engine to Windows Host Machines Established."
+      
+  - name: Start Windows Module Installer Service
+    win_service:
+      name: TrustedInstaller
+      state: started
+    
+  - debug:
+      msg:
+      - "Successfully started Windows Module Installer Service."
+      
+  - name: Start Windows Update Service
+    win_service:
+      name: wuauserv
+      state: started
+    
+  - debug:
+      msg:
+      - "Successfully started Windows Update Service."
+      
+      

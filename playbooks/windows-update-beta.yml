@@ -1,9 +1,19 @@
+# This Ansible Playbook can be used to perform the following tasks.
+#
+# - Stop Windows Module Installer Service and Windows Update Service in windows Host Machine.
+# - Start IIS Server LB Check Site in the Windows Host Machine
+# Author: Arjun B Nair
+# Last updated: 22/11/2020
+
 ---
 
 - hosts: winserver
   gather_facts: no
   
+  
   tasks:
+  
+  # To perform ping test to Windows Host Machine from Ansible Engine.
   - name: Ping test from Ansible Engine to Windows Host
     win_ping:
   - debug:
@@ -11,7 +21,7 @@
       - "Connection from Ansible Engine to Windows Host Machines Established."
       
   
-    
+  # To Stop Windows Module Installer Service in the Windows Host Machine.  
   - name: Stop and Disable Windows Module Installer Service after Patching.
     win_service:
       name: TrustedInstaller
@@ -22,7 +32,7 @@
       - "Successfully stopped and disabled Windows Module Installer Service."
       
       
-      
+  # To Stop Windows Update Service in the Windows Host Machine.     
   - name: Stop and Disable Windows Update Service
     win_service:
       name: wuauserv
@@ -32,6 +42,8 @@
       msg:
       - "Successfully stopped and disabled Windows Update Service."
       
+      
+  # To Start IIS Server LB Check Site in the Windows Host Machine.   
   - name: Start IIS Server LB Check Site
     win_iis_website:
       name: "LBCheckSite"

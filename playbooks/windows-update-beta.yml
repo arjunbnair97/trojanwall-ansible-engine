@@ -32,4 +32,10 @@
       msg:
       - "Successfully stopped and disabled Windows Update Service."
       
+  - name: Start IIS Server LB Check Site
+    community.windows.win_iis_website:
+      name: LB Check site
+      port: 8080
+      state: stopped
+      
       

@@ -13,7 +13,7 @@
   - name: Start Windows Module Installer Service
     win_service:
       name: TrustedInstaller
-      start_mode: enabled
+      start_mode: manual
       state: started
     
   - debug:
@@ -23,7 +23,7 @@
   - name: Start Windows Update Service
     win_service:
       name: wuauserv
-      start_mode: enabled
+      start_mode: manual
       state: started
     
   - debug:

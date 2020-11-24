@@ -1,12 +1,20 @@
 # This Ansible Playbook can be used to perform the following tasks.
 # Please note that this playbook is supposed to run in order to install Windows Update in host machine. 
-#
+# -----------------------------------------------------------------------------------------------------------------------------
+# - STAGE 1
 # - Start Windows Module Installer Service and Windows Update Service in windows Host Machine.
-# - Stop IIS Server LB Check Site in the Windows Host Machine
-# - Search for prefered available updates and install them
+# - Stop IIS Server LB Check Site in the Windows Host Machine.
+# - Search for prefered available updates and install them.
 # - Reboot the Windows Host Machine after installing update in Windows Host Machine.
+# -----------------------------------------------------------------------------------------------------------------------------
+# - STAGE 2
+# - Stop Windows Module Installer Service and Windows Update Service in windows Host Machine after reboot.
+# - Start IIS Server LB Check Site in the Windows Host Machine after reboot.
+# -----------------------------------------------------------------------------------------------------------------------------
 # Author: Arjun B Nair
-# Last updated: 22/11/2020
+# Upated: 22/11/2020 - Creation
+# Updated 25/11/2020 - Combined Alpha and Beta playbooks into one, added wait time constraint, can be executed group-ise.
+# ---------------------------------------------------------------------------------------------------------------------------
 
 ---
 
@@ -105,6 +113,12 @@
   - name: Reboot Windows Host if required.
     win_reboot:
     when: update_result.reboot_required
+    
+    
+  # Pause for a specific time frame  so that the VMs have successfully restarted.
+  - name: Pause for 1 minute so that Host Machines have successfully restarted.
+    pause:
+      minutes: 1
     
     
   # ---------------------------------------------STAGE 2---------------------------------------------

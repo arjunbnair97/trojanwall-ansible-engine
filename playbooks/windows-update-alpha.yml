@@ -91,11 +91,16 @@
       
       
       
-  # To Reboot Windows Host if required after installing updates.     
-  - name: Reboot Windows Host if required.
+  # To Double Check to Stop LBCheckSite from IIS Server.     
+  - name: Double Check to Stop LBCheckSite from IIS Server.
     win_iis_website:
       name: "LBCheckSite"
       state: stopped
+    
+    
+    
+  # To Reboot Windows Host if required after installing updates.     
+  - name: Reboot Windows Host if required.
     win_reboot:
     when: update_result.reboot_required
       

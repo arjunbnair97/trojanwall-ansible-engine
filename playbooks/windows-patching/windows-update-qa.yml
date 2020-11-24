@@ -1,1 +1,105 @@
-.,
+# This Ansible Playbook can be used to perform the following tasks.
+# Please note that this playbook is supposed to run in order to install Windows Update in host machine. 
+#
+# - Start Windows Module Installer Service and Windows Update Service in windows Host Machine.
+# - Stop IIS Server LB Check Site in the Windows Host Machine
+# - Search for prefered available updates and install them
+# - Reboot the Windows Host Machine after installing update in Windows Host Machine.
+# Author: Arjun B Nair
+# Last updated: 22/11/2020
+
+---
+
+- hosts: winserver
+  gather_facts: no
+  vars:
+    win_updates_categories:
+      - SecurityUpdates
+      - CriticalUpdates
+      - DefinitionUpdates
+      - Updates
+  
+  tasks:
+  
+  # To perform ping test to Windows Host Machine from Ansible Engine. 
+  - name: Ping test from Ansible Engine to Windows Host
+    win_ping:
+  - debug:
+      msg:
+      - "Connection from Ansible Engine to Windows Host Machines Established."
+      
+      
+      
+  # To Start Windows Module Installer Service in the Windows Host Machine.
+  - name: Start Windows Module Installer Service
+    win_service:
+      name: TrustedInstaller
+      start_mode: auto
+      state: started
+  - debug:
+      msg:
+      - "Successfully started Windows Module Installer Service."
+      
+      
+      
+  # To Start Windows Update Service in the Windows Host Machine.    
+  - name: Start Windows Update Service
+    win_service:
+      name: wuauserv
+      start_mode: auto
+      state: started
+  - debug:
+      msg:
+      - "Successfully started Windows Update Service."
+  
+  
+  
+  # To Stop IIS Server LB Check Site in the Windows Host Machine.
+  - name: Stop IIS Server LB Check Site
+    win_iis_website:
+      name: "LBCheckSite"
+      state: stopped
+  - debug:
+      msg:
+      - "Successfully Stopped IIS Server LB Check Site."
+      
+      
+      
+  # To Search for perfereable Windows Update in Windows Host Machine.     
+  - name: Search for new available updates
+    win_updates:
+      category_names: "{{ win_updates_categories }}"
+      #whitelist:
+      #- KB2267602
+      #- KB4586839
+      state: searched
+      register: update_count
+      ignore_errors: yes
+      log_path: c:\ansible_wu.txt
+      
+      
+      
+  # To Install perfereable Windows Update in Windows Host Machine.    
+  - name: Install all critical and security updates in Windows Host Machines
+    win_updates:
+      category_names: "{{ win_updates_categories }}"
+      #whitelist:
+      #- KB2267602
+      #- KB4586839
+      state: installed
+    register: update_result
+      
+      
+      
+  # To Double Check to Stop LBCheckSite from IIS Server.     
+  - name: Double Check to Stop LBCheckSite from IIS Server.
+    win_iis_website:
+      name: "LBCheckSite"
+      state: stopped
+    
+    
+    
+  # To Reboot Windows Host if required after installing updates.     
+  - name: Reboot Windows Host if required.
+    win_reboot:
+    when: update_result.reboot_required

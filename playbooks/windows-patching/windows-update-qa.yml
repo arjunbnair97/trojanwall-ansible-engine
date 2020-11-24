@@ -118,7 +118,7 @@
   # Pause for a specific time frame  so that the VMs have successfully restarted.
   - name: Pause for 1 minute so that Host Machines have successfully restarted.
     pause:
-      minutes: 1
+      minutes: 3
     
     
   # ---------------------------------------------STAGE 2---------------------------------------------

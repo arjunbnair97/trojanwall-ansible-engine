@@ -38,7 +38,7 @@
       msg:
       - "Connection initiated..."
       - "Hand shake successfull."
-      - "Host Machine is now slave to the Ansible Engine."
+      - "Host machine is now slave to the Ansible Engine."
       
       
       
@@ -132,7 +132,7 @@
       msg:
       - "Connection initiated..."
       - "Hand shake successfull."
-      - "Host Machine is now slave to the Ansible Engine."
+      - "Host machine is now slave to the Ansible Engine."
       
   
   # To Stop Windows Module Installer Service in the Windows Host Machine after reboot.  

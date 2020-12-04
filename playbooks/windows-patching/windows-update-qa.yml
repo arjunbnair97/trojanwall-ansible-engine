@@ -36,7 +36,9 @@
     win_ping:
   - debug:
       msg:
-      - "Connection from Ansible Engine to Windows Host Machines Established."
+      - "Connection initiated..."
+      - "Hand shake successfull."
+      - "Host Machine is now slave to the Ansible Engine."
       
       
       
@@ -128,7 +130,9 @@
     win_ping:
   - debug:
       msg:
-      - "Connection from Ansible Engine to Windows Host Machines Established."
+      - "Connection initiated..."
+      - "Hand shake successfull."
+      - "Host Machine is now slave to the Ansible Engine."
       
   
   # To Stop Windows Module Installer Service in the Windows Host Machine after reboot.  

@@ -1,0 +1,33 @@
+---
+
+- hosts: kubemaster
+  become: yes
+  
+  tasks:
+  - name: Kubernetes Cluster PING Test
+    ping:
+  - debug:
+      msg:
+      - "Kubernetes Cluster is now slave to the Ansible Engine."
+      
+      
+  - name: Cluster Configurations
+    shell: |
+      sudo cp /etc/kubernetes/admin.conf $HOME/ 
+      sudo chown $(id -u):$(id -g) $HOME/admin.conf 
+      export KUBECONFIG=$HOME/admin.conf 
+  - debug:
+      msg:
+      - "Kube admin configuration done."
+      - "Ready for command execution"
+      
+      
+  - name: Kubernetes Cluster Check
+    shell: |
+      sleep 10s
+      kubectl get pods -n trojanwall
+      kubectl get svc -n trojanwall
+  - debug:
+      msg:
+      - "Cluster Checks Completed."
+      - "Pods are running"

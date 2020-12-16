@@ -9,7 +9,7 @@
     ping:
   - debug:
       msg:
-      - "Connection from Ansible Engine to Kubernetes cluster Established."
+      - "Kubernetes Cluster is now slave to the Ansible Engine."
   - name: Cluster Configurations
     shell: |
       sudo cp /etc/kubernetes/admin.conf $HOME/ 
@@ -21,6 +21,7 @@
   - debug:
       msg:
       - "Kube admin configuration done."
+      - "Ready for command execution"
       - "GitLab repository pull completed."
   - name: Kubernetes Cluster deployment
     shell: |

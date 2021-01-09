@@ -2,7 +2,7 @@
 # author: Arjun B Nair
 
 ---
-- hosts: kube
+- hosts: test-machines
   become: yes
   tasks:
   - yum: 

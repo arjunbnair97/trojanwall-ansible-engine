@@ -1,6 +1,6 @@
 ---
 
-- hosts: winserver
+- hosts: winserver-qa
   gather_facts: no
   
   tasks:

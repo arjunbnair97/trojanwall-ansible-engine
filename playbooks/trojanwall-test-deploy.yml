@@ -1,0 +1,39 @@
+---
+
+- hosts: kubemaster
+  become: yes
+  
+  tasks:
+  - name: Kubernetes Cluster PING Test
+    ping:
+  - debug:
+      msg:
+      - "Kubernetes Cluster is now slave to the Ansible Engine."
+  - name: Cluster Configurations
+    shell: |
+      sudo cp /etc/kubernetes/admin.conf $HOME/ 
+      sudo chown $(id -u):$(id -g) $HOME/admin.conf 
+      export KUBECONFIG=$HOME/admin.conf 
+      cd /home/TestProject
+      git reset --hard 
+      git pull https://gitlab.com/rmesi/trojanwallg2-testing.git Production 
+  - debug:
+      msg:
+      - "Kube admin configuration done."
+      - "Ready for command execution"
+      - "GitLab repository pull completed."
+  - name: Kubernetes Cluster deployment
+    shell: |
+      cd /home/TestProject/Kubernetes/Django
+      kubectl delete -f django_deploy.yml && kubectl apply -f django_deploy.yml
+  - debug:
+      msg:
+      - "Deployment to Kubernetes Cluster successfull."
+      - "Changes have been reflected."
+      - "Pods re-sheduling."
+      - "Pods re-deploying."
+  - name: Kubernetes Cluster pods current stats
+    shell: |
+      sleep 10s
+      kubectl get pods -n trojanwall
+      kubectl get svc -n trojanwall

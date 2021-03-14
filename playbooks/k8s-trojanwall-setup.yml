@@ -19,13 +19,13 @@
 
   - name: Pulling from Trojanwall Git Repository
     shell: |
-      chmod +x /home
-      cd /home ; mkdir TestProject
-      cd /home/TestProject
+      chmod +x /etc
+      cd /etc ; mkdir trojanwall-kube
+      cd /etc/trojanwall-kube
       git init
-      git remote add origin https://gitlab.com/arbnair97/trojanwallg2.git
-      git checkout -b Production
-      git pull https://gitlab.com/arbnair97/trojanwallg2.git Production
+      git remote add origin https://gitlab.com/arbnair97/trojanwall-kuberentes.git
+      git checkout -b master
+      git pull https://gitlab.com/arbnair97/trojanwall-kuberentes.git master
   - debug:
       msg:
       - "Trojanwall Repository Pulled from Gitlab."
@@ -33,16 +33,18 @@
     
   - name: Trojanwall App deployment
     shell: |
-      cd /home/TestProject/Kubernetes/
+      cd /etc/trojanwall-kube
       kubectl create -f namespace.yml 
-      cd /home/TestProject/Kubernetes/Postgres
+      cd Postgres
       kubectl create -f pg_secrets.yml
       kubectl create -f pg_pv.yml
       kubectl create -f pg_deploy.yml
-      cd /home/TestProject/Kubernetes/Django
+      cd ../Django
       kubectl create -f django_secrets.yml
       sleep 1m
       kubectl create -f django_deploy.yml
+      kubectl create -f django_job.yml
+      
   - debug:
       msg:
       - "Trojanwall successfully deployed to Kuberentes Cluster."

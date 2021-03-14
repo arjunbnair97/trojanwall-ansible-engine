@@ -15,9 +15,9 @@
       sudo cp /etc/kubernetes/admin.conf $HOME/ 
       sudo chown $(id -u):$(id -g) $HOME/admin.conf 
       export KUBECONFIG=$HOME/admin.conf 
-      cd /home/TestProject
-      git reset --hard 
-      git pull https://gitlab.com/arbnair97/trojanwallg2.git Production 
+      cd /etc/trojanwall-kube
+      git reset --hard origin/master
+      git pull https://gitlab.com/arbnair97/trojanwall-kuberentes.git master
   - debug:
       msg:
       - "Kube admin configuration done."
@@ -25,8 +25,9 @@
       - "GitLab repository pull completed."
   - name: Kubernetes Cluster deployment
     shell: |
-      cd /home/TestProject/Kubernetes/Django
+      cd /etc/trojanwall-kube/Django
       kubectl delete -f django_deploy.yml && kubectl apply -f django_deploy.yml
+      kubectl create -f django_job.yml
   - debug:
       msg:
       - "Deployment to Kubernetes Cluster successfull."
